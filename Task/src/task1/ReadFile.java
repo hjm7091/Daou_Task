@@ -24,7 +24,7 @@ public class ReadFile {
 	protected void processFile(String path) {
 		try {
 			File file = new File(path);
-			System.out.println(file.getName());
+			//System.out.println(file.getName());
 			FileReader filereader = new FileReader(file);
 			BufferedReader bufReader = new BufferedReader(filereader);
 			String line = "";
