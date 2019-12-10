@@ -2,62 +2,47 @@ package task1;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Scanner;
 
 public class ReadFolder {
 	
-	private ArrayList<String> pathes = new ArrayList<>();
-	private Map<String, HashSet<String>> dics;
-	
-	protected ReadFolder(String path) {
-		dics = new HashMap<String, HashSet<String>>();
-		final File folder = new File(path);
-		listFilesForFolder(folder, path);
-		processFiles(path);
-	}
-	
-	protected void processFiles(String path) {
-		for(String p : pathes) {
-			String filePath = p;
-			ReadFile rFile = new ReadFile(filePath);
-			Map<String, HashSet<String>> dic = rFile.getDic();
-			for(Map.Entry<String, HashSet<String>> entry : dic.entrySet()) 
-				dics.put(entry.getKey(), entry.getValue());
-			
-		}
-		System.out.println("mapInfo");
-		Map<String, HashSet<String>> sortedDic = new MapSort(dics).getDic();
-		for(Map.Entry<String, HashSet<String>> entry : sortedDic.entrySet()) {
-			System.out.println("key : " + entry.getKey() + " value : " + entry.getValue() + " SetSize : " + entry.getValue().size());
-		}
-		System.out.println(path);
+	protected ReadFolder(String folderPath) {
+		final File folder = new File(folderPath);
+		ArrayList<String> pathes = listFilesForFolder(folder, folderPath);
+		ReadingThread rThread = new ReadingThread(folderPath, pathes);
+		rThread.start();
+		boolean state = true;
+		System.out.println("종료하려면 end를 입력하세요.");
 		Scanner input = new Scanner(System.in);
-		System.out.println("1:저장O 2:저장X");
-		String save = input.next();
-		if(save.equals("1")) {
-			SaveOnLocal saveonlocal = new SaveOnLocal(sortedDic, path);
+		while(state) {
+			String str = input.next();
+			if(str.equals("end")) {
+				rThread.interrupt();
+				state = false;
+			}
 		}
+		input.close();
 	}
 	
-	protected void listFilesForFolder(final File folder, String path) {
+	protected ArrayList<String> listFilesForFolder(final File folder, String path) {
+		ArrayList<String> pathes = new ArrayList<>();
 	    for (final File fileEntry : folder.listFiles()) {
 	        if (fileEntry.isDirectory()) {
+	        	if(fileEntry.getName().contains("result"))
+	        		continue;
 	        	String now_path = checkLastCharacter(path, fileEntry.getName());
-	            listFilesForFolder(fileEntry, now_path);
+	            pathes.addAll(listFilesForFolder(fileEntry, now_path));
 	        } else {
 	            String fileName = fileEntry.getName();
 	            int lastIdx = fileName.lastIndexOf(".");
 	            String extender = fileName.substring(lastIdx+1, fileName.length());
 	            if(extender.equals("txt")) { //폴더안의 텍스트 파일만 저장
 	            	String now_path = checkLastCharacter(path, fileName);
-	            	//System.out.println(fileName + " " + now_path);
 	            	pathes.add(now_path);
 	            }
 	        }
 	    }
+	    return pathes;
 	}
 	
 	protected String checkLastCharacter(String path, String directoryName) {

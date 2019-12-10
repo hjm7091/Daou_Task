@@ -1,9 +1,6 @@
 package task1;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 public class StringProcess {
 	
@@ -17,18 +14,14 @@ public class StringProcess {
 		ArrayList<String> processedList = new ArrayList<>();
 		for(String line : lines) {
 			String realTime = cal_realTime(line);
+			if(realTime.equals("error"))
+				continue;
 			String processedTime = cal_processedTime(realTime);
 			String ip = cal_ip(line);
-			String mail = cal_mail(line, ip, realTime);
-			String[] method_url = cal_method_url(line);
-//			System.out.println(realTime);
-//			System.out.println(processedTime);
-//			System.out.println(ip);
-//			System.out.println(mail);
-//			System.out.println(method_url[0]);	//method
-//			System.out.println(method_url[1]);  //url
 			if(ip.equals("- - -"))
 				ip = "unknown_ip";
+			String mail = cal_mail(line, ip, realTime);
+			String[] method_url = cal_method_url(line);
 			String key = processedTime;
 			String value = ip + " " + mail + " " + method_url[0] + " " + method_url[1]; 
 			line = key + " " + value;
@@ -42,7 +35,6 @@ public class StringProcess {
 		int pos_http = line.indexOf("HTTP");
 		String s = line.substring(pos_time+2, pos_http);
 		String[] str = s.split("\\s+");
-//		System.out.println(Arrays.toString(str));
 		return str;
 	}
 	
@@ -50,7 +42,6 @@ public class StringProcess {
 		int pos_ip = line.indexOf(ip);
 		int pos_time = line.indexOf(realTime);
 		int pos_mail = line.indexOf("@");
-		//System.out.println(pos_ip + " " + pos_time + " " + pos_mail);
 		if(pos_mail!=-1 && pos_mail>pos_ip && pos_mail<pos_time) {
 			int left = pos_mail - 1, right = pos_mail + 1;
 			while(line.charAt(left)!=' ') 
@@ -87,6 +78,8 @@ public class StringProcess {
 	protected String cal_realTime(String line) {
 		int start = line.indexOf("[");
 		int end = line.indexOf("]"); 
+		if(start == -1 || end == -1)
+			return "error";
 		line = line.substring(start, end+1);
 		return line;
 	}
@@ -94,9 +87,7 @@ public class StringProcess {
 	protected String cal_processedTime(String line) {
 		line = line.substring(1, line.length());
 		String[] str = line.split(":|/|\\s+");
-		//System.out.println(Arrays.toString(str));
 		String month = cal_month(str[1]);
-		//System.out.println(month);
 		return str[2]+month+str[0]+str[3]+str[4];
 	}
 	

@@ -20,19 +20,19 @@ class MyThread extends Thread{
 	public void run() {
 		while(state) {
 			try {
-				RandomAccessFile RA = new RandomAccessFile(path, "r");
+				RandomAccessFile randomAccessFile = new RandomAccessFile(path, "r");
 				String new_path = get_path(path);
 				BufferedWriter out = new BufferedWriter(new FileWriter(new_path, true));
 				if(pos == -1) {
 					String line = "";
-					while((line = RA.readLine()) != null) {
+					while((line = randomAccessFile.readLine()) != null) {
 						System.out.println(line);
 					}
-					long now_pos = RA.length();
+					long now_pos = randomAccessFile.length();
 					System.out.println("파일 크기 : " + now_pos);
 					byte[] data = new byte[(int)now_pos];
-					RA.seek(0);
-					RA.read(data);
+					randomAccessFile.seek(0);
+					randomAccessFile.read(data);
 					out.write("처음 내용 : " + new String(data));
 					out.newLine();
 					out.flush();
@@ -40,17 +40,17 @@ class MyThread extends Thread{
 				}
 				else {
 					String line = "";
-					while((line = RA.readLine()) != null) {
+					while((line = randomAccessFile.readLine()) != null) {
 						System.out.println(line);
 					}
-					long now_pos = RA.length();
+					long now_pos = randomAccessFile.length();
 					System.out.println("파일 크기 : " + now_pos);
 					long diff = now_pos - pos;
 					if(diff > 0) {
 						System.out.println("크기가 커졌습니다.");
 						byte[] data = new byte[(int) diff]; 
-						RA.seek(now_pos - diff);
-						RA.read(data);
+						randomAccessFile.seek(now_pos - diff);
+						randomAccessFile.read(data);
 						out.write("새로운 내용 : " + new String(data));
 						out.newLine();
 						out.flush();
@@ -86,7 +86,7 @@ public class Thread_Practice {
 
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
-		System.out.print("경로 입력 : ");
+		System.out.print("파일 경로 입력 : ");
 		String path = input.next();
 		MyThread t = new MyThread(path);
 		t.start();

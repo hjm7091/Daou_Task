@@ -8,31 +8,36 @@ import java.util.Map;
 
 public class SaveOnLocal {
 	
+	//private Map<String, Integer> fileInfo;
+	
 	protected SaveOnLocal(Map<String, HashSet<String>> sortedDic, String path) {
 		saveUnitMinute(sortedDic, path);
 	}
 	
 	protected void saveUnitMinute(Map<String, HashSet<String>> sortedDic, String path) {
 		String newFolder = "resultMinute";
-		String newPath = checkLastCharacter(path, newFolder);
-		File Folder = new File(newPath);
+		String newFolderPath = checkLastCharacter(path, newFolder);
+		File Folder = new File(newFolderPath);
 		if (!Folder.exists()) {
 			try{
 			    Folder.mkdir(); //폴더 생성합니다.
 			    System.out.println("폴더가 생성되었습니다.");
-		        } 
-		        catch(Exception e){
-			    e.getStackTrace();
-			}        
-	         }else {
-			System.out.println("이미 폴더가 생성되어 있습니다.");
+		    } 
+		    catch(Exception e){
+			    System.out.println("폴더 생성 오류");
+			}
+	    }
+		else {
+			System.out.println("폴더가 이미 존재합니다.");
+			File[] deleteFolderList = Folder.listFiles();
+			for(int i=0; i<deleteFolderList.length; i++)
+				deleteFolderList[i].delete();
 		}
 		
 		try{
 			for(Map.Entry<String, HashSet<String>> entry : sortedDic.entrySet()) {
-				//System.out.println("key : " + entry.getKey() + " value : " + entry.getValue() + " SetSize : " + entry.getValue().size());
-				BufferedWriter fw = new BufferedWriter(new FileWriter(newPath + "\\" + entry.getKey() + ".txt", true));
-	            
+				String newFilePath = newFolderPath + "\\" + entry.getKey() + ".txt";
+				BufferedWriter fw = new BufferedWriter(new FileWriter(newFilePath));
 	            for(String str : entry.getValue()) {
 	            	fw.write(str+"\n");
 	            }
