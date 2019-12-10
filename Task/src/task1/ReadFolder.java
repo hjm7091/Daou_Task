@@ -28,7 +28,7 @@ public class ReadFolder {
 		ArrayList<String> pathes = new ArrayList<>();
 	    for (final File fileEntry : folder.listFiles()) {
 	        if (fileEntry.isDirectory()) {
-	        	if(fileEntry.getName().contains("result"))
+	        	if(fileEntry.getName().contains("result")) //결과 폴더는 읽지 않음
 	        		continue;
 	        	String now_path = checkLastCharacter(path, fileEntry.getName());
 	            pathes.addAll(listFilesForFolder(fileEntry, now_path));

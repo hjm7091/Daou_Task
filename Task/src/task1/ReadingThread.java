@@ -28,8 +28,8 @@ public class ReadingThread extends Thread{
 			try {
 				sleep(1000 * 10);
 			} catch (InterruptedException e) {
-				System.out.println("종료");
 				this.state = false;
+				System.out.println("종료");
 			}
 		}
 	}

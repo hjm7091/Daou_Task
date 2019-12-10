@@ -59,6 +59,8 @@ class MyThread extends Thread{
 						System.out.println("크기가 그대로입니다.");
 					pos = now_pos;
 				}
+				randomAccessFile.close();
+				out.close();
 			} catch (FileNotFoundException e) {
 				System.out.println("파일을 찾을 수 없습니다.");
 			} catch (IOException e) {
@@ -99,6 +101,7 @@ public class Thread_Practice {
 				flag = false;
 			}
 		}
+		input.close();
 	}
 
 }
