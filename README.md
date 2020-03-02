@@ -19,32 +19,12 @@
     3) access_날짜.txt 파일을 하나의 맵 또는 리스트에 담는 것 제거
     4) 프로그램을 재시작 했을 때 이미 처리한 로그는 중복 처리 하지 않도록 구현
 
-### 4. 클래스 다이어그램
-
-    1) 파일을 관리하기 위한 객체
-![image](https://user-images.githubusercontent.com/28583661/71387723-9353fb00-2638-11ea-9f2d-65d5c11ac741.png)
-![image](https://user-images.githubusercontent.com/28583661/71387737-a9fa5200-2638-11ea-9535-e828081540ea.png)
-![image](https://user-images.githubusercontent.com/28583661/71387745-b383ba00-2638-11ea-9bc2-4a24a55320e0.png)
-
-    2) 다른 객체를 사용하는 서비스 객체
-![image](https://user-images.githubusercontent.com/28583661/71387917-710ead00-2639-11ea-8f7b-6a053dfc71dc.png)
-![image](https://user-images.githubusercontent.com/28583661/71387919-73710700-2639-11ea-80f5-29eaafcfda88.png)
-![image](https://user-images.githubusercontent.com/28583661/71387923-75d36100-2639-11ea-8699-247e958c69c2.png)
-
-    3) 읽은 라인을 가공하는 서비스 객체
-![image](https://user-images.githubusercontent.com/28583661/71387857-30169880-2639-11ea-90c4-1c7de348a013.png)
-![image](https://user-images.githubusercontent.com/28583661/71387859-33118900-2639-11ea-94a6-f3f434132562.png)
-![image](https://user-images.githubusercontent.com/28583661/71387862-36a51000-2639-11ea-828d-11450cff970b.png)
-
-    4) 최종 클래스 다이어그램
-![image](https://user-images.githubusercontent.com/28583661/71387970-ab784a00-2639-11ea-807b-5f436ecb7157.png)
-
-### 5. 핵심 코드
+### 4. 핵심 코드
 
 ![image](https://user-images.githubusercontent.com/28583661/71388015-e5e1e700-2639-11ea-8576-bc24d4cff157.png)
       
-라인을 읽어 나가면서 분 단위의 시간이 변했을 때 임시 저장소에 저장되어 있는 이전 라인들을 로컬에 저장하는 방법을 사용. 
-이렇게 하면 메모리에 하나의 파일 단위가 아닌 분 단위의 라인들이 들어갈 것이기 때문에 메모리를 효율적으로 사용 가능.
+    1) 라인을 읽어 나가면서 분 단위의 시간이 변했을 때 임시 저장소에 저장되어 있는 이전 라인들을 로컬에 저장하는 방법을 사용. 
+    2) 이렇게 하면 메모리에 하나의 파일 단위가 아닌 분 단위의 라인들이 들어갈 것이기 때문에 메모리를 효율적으로 사용 가능.
     
 
 
